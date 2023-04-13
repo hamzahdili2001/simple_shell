@@ -2,6 +2,9 @@
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> testing
 =======
 >>>>>>> testing
 #include <stdio.h>
@@ -33,6 +36,10 @@ void main_loop(void)
 
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Bahaa
+>>>>>>> testing
 =======
 >>>>>>> Bahaa
 >>>>>>> testing
