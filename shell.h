@@ -11,7 +11,7 @@
 void main_loop(void);
 int _strlen(char *str);
 char *read_line(void);
-void execute_command(char **args);
+int execute_command(char **args);
 char **parse_line(char *line);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
