@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+<<<<<<< HEAD
 #define TOKEN_DELIM " \t\r\n\a"
 #define BUFFER_SIZE 1024
 void main_loop(void);
@@ -10,4 +11,9 @@ int _strlen(char *str);
 char *read_line(void);
 void execute_command(char **args);
 char **parse_line(char *line);
+=======
+void main_loop(void);
+int _strlen(char *str);
+char *read_line(void);
+>>>>>>> Bahaa
 #endif
