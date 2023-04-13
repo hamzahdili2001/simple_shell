@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 #define TOKEN_DELIM " \t\r\n\a"
 #define BUFFER_SIZE 1024
 void main_loop(void);

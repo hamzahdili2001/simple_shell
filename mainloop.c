@@ -13,7 +13,7 @@ void main_loop(void)
 	}
 
 	do {
-		write(STDERR_FILENO, &prompt, _strlen(prompt));
+		write(STDERR_FILENO, prompt, _strlen(prompt));
 		line = read_line();
 		args = parse_line(line);
 		execute_command(args);
