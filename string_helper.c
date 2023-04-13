@@ -27,11 +27,12 @@ char *_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-int _strlen(char *s)
+int _strlen(char *str)
 {
 	int len;
 
-	for (len = 0 ; s[len];)
+	while (*(str + len) != '\0')
 		len++;
+
 	return (len);
 }
