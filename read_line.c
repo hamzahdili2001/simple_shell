@@ -10,6 +10,5 @@ char *read_line(void)
 		perror("getline");
 		exit(EXIT_FAILURE);
 	}
-	write(STDOUT_FILENO, line, buffer_size);
 	return (line);
 }
