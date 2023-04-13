@@ -1,7 +1,4 @@
 #include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 void execute_command(char **args)
 {
@@ -18,8 +15,8 @@ void execute_command(char **args)
 	}
 
 	/*Concatenate input with "/bin/"*/ 
-	strcpy(concat, "/bin/");
-	strcat(concat, args[0]);
+	_strcpy(concat, "/bin/");
+	_strcat(concat, args[0]);
 
 	pid = fork();
 	if (pid == 0)
