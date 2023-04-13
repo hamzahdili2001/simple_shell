@@ -1,14 +1,7 @@
 #include "shell.h"
-<<<<<<< HEAD
-#include <stdio.h>
-#include <stdlib.h>
-=======
->>>>>>> Bahaa
-#include <unistd.h>
 
 void main_loop(void)
 {
-<<<<<<< HEAD
 	char *prompt = "($) ", *line = malloc(BUFFER_SIZE * sizeof(char *)), **args;
 	size_t line_length;
 	int status = 1;
@@ -29,14 +22,3 @@ void main_loop(void)
 	} while (status);
 }
 
-=======
-	char *prompt = "($) ", *line;
-	size_t line_length;
-	int status = 1;
-
-	do {
-		write(STDERR_FILENO, prompt, _strlen(prompt) + 1);
-		line = read_line();
-	} while (status);
-}
->>>>>>> Bahaa
