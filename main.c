@@ -1,4 +1,9 @@
 #include "shell.h"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> testing
 #include <stdio.h>
 
 char *read_line(void)
@@ -27,6 +32,10 @@ void main_loop(void)
 	} while (status);
 
 }
+<<<<<<< HEAD
+=======
+>>>>>>> Bahaa
+>>>>>>> testing
 
 int main (void)
 {
