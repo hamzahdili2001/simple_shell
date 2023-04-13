@@ -8,7 +8,7 @@ void main_loop(void)
 	int status = 1;
 
 	do {
-		write(STDERR_FILENO, &prompt, _strlen(prompt) + 1);
+		write(STDERR_FILENO, prompt, _strlen(prompt) + 1);
 		line = read_line();
 	} while (status);
 }
