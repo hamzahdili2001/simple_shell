@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -14,4 +13,7 @@ int _strlen(char *str);
 char *read_line(void);
 void execute_command(char **args);
 char **parse_line(char *line);
+char *_strcat(char *dest, char *src)
+char *_strcpy(char *dest, char *src);
+int _strlen(char *s);
 #endif
