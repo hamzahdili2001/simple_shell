@@ -1,5 +1,3 @@
-#include "shell.h"
-
 char *_strcat(char *dest, char *src)
 {
 	int dest_length = _strlen(dest), i = 0;
@@ -16,9 +14,7 @@ char *_strcat(char *dest, char *src)
 
 char *_strcpy(char *dest, char *src)
 {
-	int i;
-
-	i = 0;
+	int i = 0;
 
 	while (*(src + i) != '\0')
 	{
@@ -31,7 +27,7 @@ char *_strcpy(char *dest, char *src)
 
 int _strlen(char *str)
 {
-	int len;
+	int len = 0;
 
 	while (*(str + len) != '\0')
 		len++;
