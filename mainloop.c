@@ -1,4 +1,6 @@
 #include "shell.h"
+#include <stdio.h>
+#include <unistd.h>
 
 void main_loop(void)
 {
@@ -14,7 +16,20 @@ void main_loop(void)
 
 	do {
 		write(STDERR_FILENO, prompt, _strlen(prompt));
-		line = read_line();
+
+	  /*read input from a pipe if available, otherwise read from stdin*/
+		if (isatty(STDERR_FILENO) == 0)
+		{
+			line = fgets(line, BUFFER_SIZE, stdin);
+			if (line == NULL)
+			{
+				break;
+			}
+		}
+		else {
+			line = read_line();
+		}
+
 		args = parse_line(line);
 
 		if (args[0] != NULL && strcmp(args[0], "exit") == 0)
