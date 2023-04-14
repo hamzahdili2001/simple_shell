@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int execute_command(char **args)
+void execute_command(char **args)
 {
 	pid_t pid;
 	int status;
@@ -39,5 +39,4 @@ int execute_command(char **args)
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
-	return (status);
 }
