@@ -7,7 +7,20 @@ void execute_command(char **args)
 	pid_t pid;
 	int status;
 	char *command;
-
+	
+	if (args[0] == NULL)
+	{
+		return;
+	}
+	if (strcmp(args[0], "exit") == 0)
+	{
+		exit(EXIT_SUCCESS);
+	}
+	if (strcmp(args[0], "env") == 0)
+	{
+		execute_env();
+		return;
+	}
 	if (args[0][0] == '/')
 	{
 		command = args[0];

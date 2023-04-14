@@ -15,4 +15,5 @@ void execute_command(char **args);
 char **parse_line(char *line);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
+void execute_env(void);
 #endif
