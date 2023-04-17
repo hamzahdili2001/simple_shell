@@ -11,7 +11,7 @@ char **parse_line(char *line)
 		exit(EXIT_FAILURE);
 	}
 
-	token = _strtok(line, TOKEN_DELIM);
+	token = strtok(line, TOKEN_DELIM);
 
 	while (token != NULL)
 	{
@@ -29,7 +29,7 @@ char **parse_line(char *line)
 			}
 		}
 
-		token = _strtok(NULL, TOKEN_DELIM);
+		token = strtok(NULL, TOKEN_DELIM);
 	}
 	tokens[position] = NULL;
 

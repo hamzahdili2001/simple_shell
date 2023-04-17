@@ -1,22 +1,21 @@
 #include "shell.h"
+#include <stdlib.h>
 
 char *read_line(void)
 {
 	char *line = NULL;
 	size_t buffer_size = 0;
+	ssize_t bytes_read = getline(&line, &buffer_size, stdin);
 
-	if (getline(&line, &buffer_size, stdin) == -1)
+	if (bytes_read == -1)
 	{
-		perror("getline");
+		free(line);
 		exit(EXIT_FAILURE);
 	}
 
-	// remove comments from the input line
-	
-	char *comment = _strchr(line, '#');
-	if (comment != NULL)
+	if (line[bytes_read - 1] == '\n')
 	{
-		*comment = '\0';
+		line[bytes_read - 1] = '\0';
 	}
 	return (line);
 }
