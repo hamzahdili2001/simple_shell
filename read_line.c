@@ -10,5 +10,13 @@ char *read_line(void)
 		perror("getline");
 		exit(EXIT_FAILURE);
 	}
+
+	// remove comments from the input line
+	
+	char *comment = _strchr(line, '#');
+	if (comment != NULL)
+	{
+		*comment = '\0';
+	}
 	return (line);
 }
