@@ -4,12 +4,14 @@
 #include <string.h>
 #include <unistd.h>
 
+int last_exit_status = 0;
 
 user_command_t user_commands[] = 
 {
 	{"cd", cd_command},
 	{"env", env_command},
 	{"exit", exit_command},
+	{"_echo", echo_command},
 };
 
 user_command_t *find_command(char *cmd_name)
@@ -61,6 +63,7 @@ void execute_external_command(char **args, char *bin_path)
 		do {
 			waitpid(pid, &status, WUNTRACED);
 		}  while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		 last_exit_status = WEXITSTATUS(status);
 	}
 }
 

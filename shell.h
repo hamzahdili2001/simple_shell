@@ -9,7 +9,8 @@
 #include <ncurses.h>
 #define TOKEN_DELIM " \t\r\n\a"
 #define BUFFER_SIZE 1024
-#define NUM_USER_COMMANDS 3
+#define NUM_USER_COMMANDS 4
+extern int last_exit_status;
 void main_loop(void);
 int _strlen(char *str);
 char *read_line(void);
@@ -23,6 +24,7 @@ void cd_command(char **args);
 void clear_command(char **args);
 char *_strtok(char* str, const char* delim);
 char *_strchr(const char* str, int c);
+void echo_command(char **args);
 typedef struct 
 {
 	char *command_name;
