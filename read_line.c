@@ -17,5 +17,13 @@ char *read_line(void)
 	{
 		line[bytes_read - 1] = '\0';
 	}
+
+	//remove comments from the input line
+	
+	char *comment = _strchr(line, '#');
+	if (comment != NULL)
+	{
+		*comment = '\0';
+	}
 	return (line);
 }
