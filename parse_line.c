@@ -2,7 +2,7 @@
 
 char **parse_line(char *line)
 {
-	int buffer_size = 64, position = 0;
+	int buffer_size = BUFFER_SIZE, position = 0;
 	char **tokens = malloc(buffer_size * sizeof(char *)), *token;
 
 	if (!tokens)
@@ -11,7 +11,7 @@ char **parse_line(char *line)
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(line, TOKEN_DELIM);
+	token = _strtok(line, TOKEN_DELIM);
 
 	while (token != NULL)
 	{
@@ -20,7 +20,7 @@ char **parse_line(char *line)
 
 		if (position >= buffer_size)
 		{
-			buffer_size += 64;
+			buffer_size += BUFFER_SIZE;
 			tokens = realloc(tokens, buffer_size * sizeof(char *));
 			if (!tokens)
 			{
@@ -29,7 +29,7 @@ char **parse_line(char *line)
 			}
 		}
 
-		token = strtok(NULL, TOKEN_DELIM);
+		token = _strtok(NULL, TOKEN_DELIM);
 	}
 	tokens[position] = NULL;
 

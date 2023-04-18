@@ -2,48 +2,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 ssize_t _getline(char **line, size_t *n, FILE *stream)
 {
-	ssize_t buffer_size = 0, num_chars = 0, byte_read;
-	char *buffer = NULL, c;
+	static char buffer[BUFFER_SIZE], *buffer_pos = buffer;
+	ssize_t num_chars = 0, bytes_read;
+	char c;
 
 	if (*line == NULL)
 	{
-		buffer_size = 128;
-		*line = (char *)malloc(buffer_size * sizeof(char));
+		*line = (char *)malloc(BUFFER_SIZE * sizeof(char));
 		if (*line == NULL)
 			return (-1);
-		*n = buffer_size;
-	}
 
-	buffer = *line;
+		*n = BUFFER_SIZE;
+	}
 
 	while (1)
 	{
-		byte_read = read(fileno(stream), &c, 1);
+		if (buffer_pos == buffer)
+		{
+			bytes_read = read(fileno(stream), buffer, BUFFER_SIZE);
+			if (bytes_read == -1)
+				return (-1);
+			else if (bytes_read == 0) {
+				*(*line + num_chars) = '\0';
+				return (((num_chars == 0) ? 0 : num_chars));
+			}
+			buffer_pos = buffer;
+		}
 
-		if (byte_read == -1)
+		c = *buffer_pos;
+		buffer_pos++;
+		if (c == '\n')
 		{
-			return (-1);
-		}
-		else if (byte_read == 0) {
-			buffer[num_chars] = '\0';
-			return ((num_chars == 0) ? 0 : num_chars);
-		}
-		else if (c == '\n')
-		{
-			buffer[num_chars] = '\0';
+			*(*line + num_chars) = '\0';
 			return (num_chars);
 		}
-
-		buffer[num_chars] = c;
+		*(*line + num_chars) = c;
 		num_chars++;
-
 
 		if (num_chars >= *n)
 		{
-			buffer_size += 128;
-			*line = (char *)realloc(*line, buffer_size * sizeof(char));
+			*n += BUFFER_SIZE;
+			*line = (char *)realloc(*line, *n * sizeof(char));
 			if (*line == NULL)
 				return (-1);
 		}

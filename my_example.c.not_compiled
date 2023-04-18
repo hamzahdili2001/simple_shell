@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+#define BUFFER_SIZE 1024
+#define TOKEN_DELIM ";"
+
+char **parse_line(char *line)
+{
+        int buffer_size = 64, position = 0;
+        char **tokens = malloc(buffer_size * sizeof(char *)), *token;
+
+        if (!tokens)
+        {
+                write(STDERR_FILENO, "Allocation error\n", strlen("Allocation error\n"));
+                exit(EXIT_FAILURE);
+        }
+
+        token = strtok(line, TOKEN_DELIM);
+
+        while (token != NULL)
+        {
+                tokens[position] = token;
+                position++;
+
+                if (position >= buffer_size)
+                {
+                        buffer_size += 64;
+                        tokens = realloc(tokens, buffer_size * sizeof(char *));
+                        if (!tokens)
+                        {
+                                write(STDERR_FILENO, "Allocation error\n", strlen("Allocation error\n"));
+                                exit(EXIT_FAILURE);
+                        }
+                }
+
+                token = strtok(NULL, TOKEN_DELIM);
+        }
+        tokens[position] = NULL;
+
+        return (tokens);
+}
+
+int execute_line(char **args)
+{
+        pid_t pid, wpid;
+        int status;
+
+        pid = fork();
+        if (pid == 0)
+        {
+                if (execvp(args[0], args) == -1)
+                {
+                        perror("lsh");
+                }
+                exit(EXIT_FAILURE);
+        }
+        else if (pid < 0)
+        {
+                perror("lsh");
+        }
+        else
+        {
+                do
+                {
+                        wpid = waitpid(pid, &status, WUNTRACED);
+                } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+        }
+
+        return 1;
+}
+
+int main(int argc, char **argv)
+{
+        char *line;
+        char **commands;
+        int status;
+
+        do
+        {
+                printf("alex@~$ ");
+                line = malloc(BUFFER_SIZE * sizeof(char));
+                fgets(line, BUFFER_SIZE, stdin);
+
+                commands = parse_line(line);
+
+                for (int i = 0; commands[i] != NULL; i++)
+                {
+                        char **args = parse_line(commands[i]);
+
+                        if (args[0] != NULL)
+                        {
+                                status = execute_line(args);
+                        }
+
+                        free(args);
+                }
+
+                free(commands);
+                free(line);
+
+        } while (status);
+
+        return EXIT_SUCCESS;
+}
+

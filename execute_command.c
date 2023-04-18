@@ -12,6 +12,8 @@ user_command_t user_commands[] =
 	{"env", env_command},
 	{"exit", exit_command},
 	{"echo", echo_command},
+	{"setenv", setenv_command},
+	{"unsetenv", unsetenv_command},
 };
 
 user_command_t *find_command(char *cmd_name)
@@ -20,7 +22,7 @@ user_command_t *find_command(char *cmd_name)
 
 	for (i = 0; i < NUM_USER_COMMANDS; i++)
 	{
-		if (strcmp(cmd_name, user_commands[i].command_name) == 0)
+		if (_strcmp(cmd_name, user_commands[i].command_name) == 0)
 			return (&user_commands[i]);
 	}
 	return (NULL);
@@ -79,7 +81,7 @@ void execute_command(char **args)
 
 	if (args[0] == NULL)
 		return;
-
+		
 	cmd = find_command(args[0]);
 
 	if (cmd != NULL)
@@ -100,5 +102,4 @@ void execute_command(char **args)
 	
 	free(binary_path);
 }
-
 
