@@ -7,7 +7,7 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <ncurses.h>
-#define TOKEN_DELIM " ;\t\r\n\a"
+#define TOKEN_DELIM " \t\r\n\a;"
 #define BUFFER_SIZE 1024
 #define NUM_USER_COMMANDS 6
 extern int last_exit_status;
