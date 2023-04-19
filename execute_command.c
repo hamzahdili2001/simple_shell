@@ -10,7 +10,7 @@ user_command_t user_commands[] =
 {
 	{"cd", cd_command},
 	{"env", env_command},
-	{"exit", exit_command},
+	{"_exit", exit_command},
 	{"echo", echo_command},
 	{"setenv", setenv_command},
 	{"unsetenv", unsetenv_command},

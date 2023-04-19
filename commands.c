@@ -58,10 +58,12 @@ void cd_command(char **args)
 
 void exit_command(char **args)
 {
-	if (args[1] == NULL)
-		perror("exit");
-	else
-		exit(EXIT_SUCCESS); 
+	if (args[1] == NULL) {
+		exit(EXIT_SUCCESS);
+	} else {
+		int status = atoi(args[1]);
+		exit(status);
+	}
 }
 
 void env_command(char **args)
