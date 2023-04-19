@@ -33,7 +33,7 @@ void main_loop(void)
 		
 		args = parse_line(line);
 
-		if (args[0] != NULL && strcmp(args[0], "exit") == 0)
+		if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
 		{
 			/*ADDED EXIT STATUS HERE UNTIL WE FIGURE OUT SOME OTHER SOLUTION*/
 			int exit_status = EXIT_SUCCESS;
