@@ -3,11 +3,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/**
+ * main_loop - function where everyting starts
+ *
+ * Return: Nothing.
+*/
+
 void main_loop(void)
 {
 	char *prompt = "($) ", *line = malloc(BUFFER_SIZE * sizeof(char *)), **args;
 	size_t line_length;
-	int status = 1;
+	int status = 1, exit_status;
 
 	if (line == NULL)
 	{
@@ -17,8 +23,6 @@ void main_loop(void)
 
 	do {
 		write(STDERR_FILENO, prompt, _strlen(prompt));
-
-	  /*read input from a pipe if available, otherwise read from stdin*/
 		if (isatty(STDERR_FILENO) == 0)
 		{
 			line = read_line();
@@ -27,16 +31,14 @@ void main_loop(void)
 				break;
 			}
 		}
-		else {
+		else
+		{
 			line = read_line();
 		}
-		
 		args = parse_line(line);
-
 		if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
 		{
-			/*ADDED EXIT STATUS HERE UNTIL WE FIGURE OUT SOME OTHER SOLUTION*/
-			int exit_status = EXIT_SUCCESS;
+			exit_status = EXIT_SUCCESS;
 			if (args[1] != NULL)
 			{
 				exit_status = atoi(args[1]);
