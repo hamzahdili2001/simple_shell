@@ -1,5 +1,6 @@
 #include "shell.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 void main_loop(void)
@@ -34,9 +35,15 @@ void main_loop(void)
 
 		if (args[0] != NULL && strcmp(args[0], "exit") == 0)
 		{
+			/*ADDED EXIT STATUS HERE UNTIL WE FIGURE OUT SOME OTHER SOLUTION*/
+			int exit_status = EXIT_SUCCESS;
+			if (args[1] != NULL)
+			{
+				exit_status = atoi(args[1]);
+			}
 			free(line);
 			free(args);
-			exit(EXIT_SUCCESS);
+			exit(exit_status);
 		}
 		execute_command(args);
 		free(line);
