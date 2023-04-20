@@ -1,16 +1,10 @@
 #include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
 int last_exit_status = 0;
 
 user_command_t user_commands[] = 
 {
 	{"cd", cd_command},
 	{"env", env_command},
-	{"_exit", exit_command},
 	{"echo", echo_command},
 	{"setenv", setenv_command},
 	{"unsetenv", unsetenv_command},
@@ -18,9 +12,13 @@ user_command_t user_commands[] =
 
 user_command_t *find_command(char *cmd_name)
 {
-	int i;
+	int i, num_user_commands = sizeof(user_commands) / sizeof(user_command_t);
+	if (cmd_name == NULL)
+	{
+		return (NULL);
+	}
 
-	for (i = 0; i < NUM_USER_COMMANDS; i++)
+	for (i = 0; i < num_user_commands; i++)
 	{
 		if (_strcmp(cmd_name, user_commands[i].command_name) == 0)
 			return (&user_commands[i]);
@@ -40,7 +38,7 @@ char *build_bin_path(char *cmd_name)
 
 	_strcpy(bn_command, "/bin/");
 	_strcat(bn_command, cmd_name);
-
+	bn_command[_strlen(bn_command)] = '\0';
 	return (bn_command);
 }
 
@@ -77,7 +75,7 @@ void execute_user_command(user_command_t *cmd, char **args)
 void execute_command(char **args)
 {
 	user_command_t *cmd;
-	char *binary_path;
+	char *binary_path = NULL;
 
 	if (args[0] == NULL)
 		return;
@@ -101,5 +99,6 @@ void execute_command(char **args)
 	execute_external_command(args, binary_path);
 	
 	free(binary_path);
+	binary_path = NULL;
 }
 

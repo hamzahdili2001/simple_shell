@@ -1,54 +1,67 @@
-#include "shell.h"
-#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
 
+ssize_t _getline(char **lineptr, size_t *n, int fd) {
+    if (!lineptr || !n) {
+        errno = EINVAL;
+        return -1;
+    }
 
-ssize_t _getline(char **line, size_t *n, FILE *stream)
-{
-	static char buffer[BUFFER_SIZE], *buffer_pos = buffer;
-	ssize_t num_chars = 0, bytes_read;
-	char c;
+    static const size_t INIT_BUFFER_SIZE = 16;
+    static const size_t MAX_INPUT_SIZE = 1024 * 1024;
 
-	if (*line == NULL)
-	{
-		*line = (char *)malloc(BUFFER_SIZE * sizeof(char));
-		if (*line == NULL)
-			return (-1);
+    if (*lineptr == NULL) {
+        *lineptr = malloc(INIT_BUFFER_SIZE);
+        if (*lineptr == NULL) {
+            return -1;
+        }
+        *n = INIT_BUFFER_SIZE;
+    }
 
-		*n = BUFFER_SIZE;
-	}
+    size_t pos = 0;
+    while (1) {
+        // Read a block of input from the file descriptor
+        char buffer[INIT_BUFFER_SIZE];
+        ssize_t num_read = read(fd, buffer, INIT_BUFFER_SIZE);
+        if (num_read == -1) {
+            if (errno == EINTR) {
+                continue; // Interrupted by signal, try again
+            } else {
+                return -1;
+            }
+        } else if (num_read == 0) {
+            break; // End of file
+        }
 
-	while (1)
-	{
-		if (buffer_pos == buffer)
-		{
-			bytes_read = read(fileno(stream), buffer, BUFFER_SIZE);
-			if (bytes_read == -1)
-				return (-1);
-			else if (bytes_read == 0) {
-				*(*line + num_chars) = '\0';
-				return (((num_chars == 0) ? 0 : num_chars));
-			}
-			buffer_pos = buffer;
-		}
+        // Check if we need to resize the buffer
+        if (pos + num_read >= *n) {
+            *n *= 2;
+            char *new_ptr = realloc(*lineptr, *n);
+            if (new_ptr == NULL) {
+                return -1;
+            }
+            *lineptr = new_ptr;
+        }
 
-		c = *buffer_pos;
-		buffer_pos++;
-		if (c == '\n')
-		{
-			*(*line + num_chars) = '\0';
-			return (num_chars);
-		}
-		*(*line + num_chars) = c;
-		num_chars++;
+        // Copy the input into the buffer
+        for (size_t i = 0; i < num_read; i++) {
+            (*lineptr)[pos++] = buffer[i];
+            if (pos >= MAX_INPUT_SIZE) {
+                return -1;
+            }
+            if (buffer[i] == '\n') {
+                (*lineptr)[pos - 1] = '\0';
+                return pos - 1;
+            }
+        }
+    }
 
-		if (num_chars >= *n)
-		{
-			*n += BUFFER_SIZE;
-			*line = (char *)realloc(*line, *n * sizeof(char));
-			if (*line == NULL)
-				return (-1);
-		}
-	}
+    if (pos > 0) {
+        (*lineptr)[pos] = '\0';
+        return pos;
+    }
+
+    return -1;
 }
 
