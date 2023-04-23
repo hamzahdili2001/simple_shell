@@ -1,5 +1,10 @@
 #include "shell.h"
 
+/**
+ * parse_line - function that parses the line
+ * @line: line given
+ * Return: Tokens
+ */
 char **parse_line(char *line)
 {
 	int buffer_size = BUFFER_SIZE, position = 0;
