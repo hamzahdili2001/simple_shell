@@ -1,74 +1,70 @@
 #include "shell.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #define PATH_SIZE 4096
+/**
+ * cd_command - implement cd command
+ * @args: arguments
+ * Return: Nothing
+*/
 void cd_command(char **args)
 {
-	char *dir;
-	char old_pwd[PATH_SIZE];
+	char *dir, old_pwd[PATH_SIZE], *current_dir;
 
 	if (args[1] == NULL)
-	{
 		dir = getenv("HOME");
-		if (dir == NULL)
-		{
-			perror("cd");
-			return;
-		}
-	} 
 	else if (_strcmp(args[1], "-") == 0)
-	{
 		dir = getenv("OLDPWD");
-		if (dir == NULL)
-		{
-			perror("cd");
-			return;
-		}
-	} 
-	else 
-	{
+	else
 		dir = args[1];
-	}
+
+	if (dir == NULL)
+		errors("cd");
 
 	if (getcwd(old_pwd, PATH_SIZE) == NULL)
-	{
-		perror("cd");
-		return;
-	}
+		errors("cd");
 
 	if (chdir(dir) == -1)
-	{
-		perror("cd");
-		return;
-	}
+		errors("cd");
 
-	if (setenv("OLDPWD", old_pwd, 1) == -1)
-	{
-		perror("cd");
-		return;
-	}
+	current_dir = getcwd(NULL, 0);
 
-	if (setenv("PWD", getcwd(NULL, 0), 1) == -1)
-	{
-		perror("cd");
-		return;
-	}
+	if (current_dir == NULL)
+		errors("cd");
+
+	if (setenv("PWD", current_dir, 1) == -1)
+		errors("cd");
 }
+
+/**
+ * exit_command - implement exit command
+ * @args: arguments
+ * Return: Nothing.
+*/
 
 void exit_command(char **args)
 {
-	if (args[1] == NULL) {
+	int status;
+
+	if (args[1] == NULL)
+	{
 		exit(EXIT_SUCCESS);
-	} else {
-		int status = atoi(args[1]);
+	}
+	else
+	{
+		status = atoi(args[1]);
 		exit(status);
 	}
 }
 
+/**
+ * env_command - implement env command
+ * @args: arguments
+ * Return: Nothing.
+*/
+
 void env_command(char **args)
 {
-	extern char **environ;
+	char **environ;
 	char **envptr = environ;
 
 	(void)args;
@@ -81,17 +77,11 @@ void env_command(char **args)
 	}
 
 }
-
-void clear_command(char **args)
-{
-	(void)args;
-	// TODO: change the setenv and make it run on any machine
-	// FIX: Not working Well Yet
-	setenv("TERM", "xterm", 1);
-	write(STDERR_FILENO, "\033[2J", _strlen("\033[2J"));
-	fflush(stdout);
-}
-
+/**
+ * setenv_command - implement setenv command
+ * @args: arguments.
+ * Return: Nothing
+*/
 
 void setenv_command(char **args)
 {
@@ -108,6 +98,12 @@ void setenv_command(char **args)
 	}
 
 }
+
+/**
+ * unsetenv_command - implement unsetenv command
+ * @args: arguments
+ * Return: Nothing
+*/
 
 void unsetenv_command(char **args)
 {

@@ -38,16 +38,17 @@ char *_strchr(const char *str, int c);
 /*OWN FUNCTION*/
 ssize_t _getline(char **lineptr, size_t *n, int fd);
 
+/*ERRORS FUCNTION*/
+void errors(char *name);
 /**
  * struct user_command_t - struct that call function based on command
- * command_name - command name
- * command_name - function ointer that get called when
+ * @command_name: command name
+ * @command_function: function ointer that get called when
  *								the user enter command
 */
-typedef struct
+typedef struct user_command_t
 {
 	char *command_name;
 	void (*command_function)(char **args);
 } user_command_t;
-
 #endif

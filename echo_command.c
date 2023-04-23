@@ -9,6 +9,7 @@ void echo_command(char **args)
     char *arg, *var_name, *var_value;
     char newline = '\n';
     int stdout_fd = 1; // stdout file descriptor
+		int last_exit_status = 0;
 
     if (args[1] != NULL && _strcmp(args[1], "-n") == 0)
     {
