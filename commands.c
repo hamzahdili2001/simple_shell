@@ -64,10 +64,10 @@ void exit_command(char **args)
 
 void env_command(char **args)
 {
-	char **environ;
 	char **envptr = environ;
 
-	(void)args;
+	if (args == NULL)
+		return;
 
 	while (*envptr != NULL)
 	{

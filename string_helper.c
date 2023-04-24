@@ -1,41 +1,11 @@
 #include "shell.h"
 
-char *_strcat(char *dest, char *src)
-{
-	int dest_length = _strlen(dest), i = 0;
-
-	while (*(src + i) != '\0')
-	{
-		*(dest + dest_length) = *(src + i);
-		i++;
-		dest_length++;
-	}
-	*(dest + dest_length) = '\0';
-	return (dest);
-}
-
-char *_strcpy(char *dest, char *src)
-{
-	int i = 0;
-
-	while (*(src + i) != '\0')
-	{
-		*(dest + i) = *(src + i);
-		i++;
-	}
-	*(dest + i) = *(src + i);
-	return (dest);
-}
-
-int _strlen(char *str)
-{
-	int len = 0;
-
-	while (*(str + len) != '\0')
-		len++;
-
-	return (len);
-}
+/**
+ * _strchr - function like strchr: read the manual
+ * @str: string
+ * @c: integer
+ * Return: NULL or true
+*/
 
 char *_strchr(const char *str, int c)
 {
@@ -43,15 +13,22 @@ char *_strchr(const char *str, int c)
 	{
 		str++;
 	}
-        return (*str == (char)c) ? (char*)str : NULL;
+	return ((*str == (char)c) ? (char *)str : NULL);
 }
+
+
+/**
+ * _strdup - function like strdup.
+ * @str: String.
+ * Return: new String.
+*/
 
 char *_strdup(char *str)
 {
 	char *new_str;
 	int len = _strlen(str);
 
-	new_str = malloc(sizeof(char) * (len +1));
+	new_str = malloc(sizeof(char) * (len + 1));
 	if (new_str == NULL)
 	{
 		perror("malloc failed");
@@ -60,6 +37,13 @@ char *_strdup(char *str)
 	_strcpy(new_str, str);
 	return (new_str);
 }
+
+/**
+ * _strcmp - function like strcmp
+ * @s1: string
+ * @s2: string
+ * Return: s1 - s2
+*/
 
 int _strcmp(const char *s1, const char *s2)
 {
@@ -75,20 +59,31 @@ int _strcmp(const char *s1, const char *s2)
 	return (*s1 - *s2);
 }
 
+/**
+ * _strtok - function like strtok.
+ * @str: string
+ * @delim: delims
+ * Return: Nothing.
+*/
+
 char *_strtok(char *str, const char *delim)
 {
-	static char *p = NULL; // pointer to current position in string
-	if (str != NULL) // set pointer to beginning of new string
+	char *start;
+	static char *p;
+
+	if (str != NULL)
 		p = str;
-	if (p == NULL || *p == '\0') // end of string, nothing left to tokenize
+
+	if (p == NULL || *p == '\0')
 		return (NULL);
-	char *start = p; // save the starting position
-	
-	// move pointer to the next delimiter
+
+	start = p;
+
 	while (*p != '\0' && _strchr(delim, *p) == NULL)
 		++p;
+
 	if (*p != '\0')
-		*p++ = '\0'; // replace the delimiter with nill character
-			     // and move the pointer
-	return (start); // return the starting position of the next token
+		*p++ = '\0';
+
+	return (start);
 }

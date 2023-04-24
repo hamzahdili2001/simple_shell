@@ -20,7 +20,7 @@ void main_errors_helper(char *text, int code)
 int main(void)
 {
 	char *prompt = "($) ", *line = malloc(BUFFER_SIZE * sizeof(char *)), **args;
-	size_t line_length;
+	int line_length;
 	int status = 1, exit_status;
 
 	if (line == NULL)

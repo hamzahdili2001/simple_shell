@@ -61,9 +61,11 @@ char *build_bin_path(char *cmd_name)
 
 void execute_external_command(char **args, char *bin_path)
 {
-	int status;
-	int last_exit_status = 0;
+	int status, last_exit_status = 0;
 	pid_t pid = fork();
+
+	if (last_exit_status < 0)
+		return;
 
 	if (pid == 0)
 	{

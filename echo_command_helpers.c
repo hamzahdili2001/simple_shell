@@ -34,6 +34,7 @@ void print_exit_status(char exit_status_str[],
 											 int exit_status, int stdout_fd)
 {
 	char tmp;
+	int j;
 
 	if (exit_status == 0)
 		exit_status_str[(*exit_status_len)++] = '0';
@@ -45,7 +46,7 @@ void print_exit_status(char exit_status_str[],
 			exit_status /= 10;
 		}
 	}
-	for (int j = 0; j < *exit_status_len / 2; j++)
+	for (j = 0; j < *exit_status_len / 2; j++)
 	{
 		tmp = exit_status_str[j];
 		exit_status_str[j] = exit_status_str[*exit_status_len - j - 1];
@@ -66,7 +67,7 @@ void print_exit_status(char exit_status_str[],
 void print_pid(char pid_str[], int *pid_len, int stdout_fd)
 {
 	char tmp;
-	int pid = getpid();
+	int pid = getpid(), j;
 
 	if (pid == 0)
 		pid_str[(*pid_len)++] = '0';
@@ -78,7 +79,7 @@ void print_pid(char pid_str[], int *pid_len, int stdout_fd)
 			pid /= 10;
 		}
 	}
-	for (int j = 0; j < *pid_len / 2; j++)
+	for (j = 0; j < *pid_len / 2; j++)
 	{
 		tmp = pid_str[j];
 		pid_str[j] = pid_str[*pid_len - j - 1];

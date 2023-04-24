@@ -12,6 +12,7 @@
 
 /*EXTERNAL VAR*/
 extern int last_exit_status;
+extern char **environ;
 
 /*MAIN FUNCTIONS*/
 void main_loop(void);
