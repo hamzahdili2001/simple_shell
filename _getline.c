@@ -44,7 +44,7 @@ ssize_t _getline(char **lineptr, size_t *n, int fd)
 			*lineptr = new_ptr;
 		}
 
-		memcpy(*lineptr + pos, buffer, num_read);
+		_memcpy(*lineptr + pos, buffer, num_read);
 		pos += num_read;
 
 		if (buffer[num_read - 1] == '\n')
