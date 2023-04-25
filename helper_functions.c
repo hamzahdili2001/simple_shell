@@ -8,7 +8,6 @@
  * @n: number of bytes to copy
  * Return: pointer to destination memory area
 */
-
 void *_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t i;
@@ -22,13 +21,11 @@ void *_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-
 /**
- * _atoi - convert string to integer
+ * _atoi - convert string to int
  * @str: pointer to string to convert
  * Return: the converted int value
 */
-
 int _atoi(const char *str)
 {
 	int result = 0;
