@@ -18,7 +18,7 @@ extern char **environ;
 /*MAIN FUNCTIONS*/
 void main_loop(void);
 char *read_line(void);
-void execute_command(char **args);
+void execute_command(char **args, char *argv[]);
 char **parse_line(char *line);
 void env_command(char **args);
 

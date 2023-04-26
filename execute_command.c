@@ -70,10 +70,11 @@ char *build_bin_path(char *cmd_name)
  * execute_external_command - Executes external commands
  * @args: argumments
  * @bin_path: binary path
+ * @argv: argumments form the main
  * Retrun: Nothing.
 */
 
-void execute_external_command(char **args, char *bin_path)
+void execute_external_command(char **args, char *bin_path, char *argv[])
 {
 	int status, last_exit_status = 0;
 	pid_t pid = fork();
@@ -85,7 +86,7 @@ void execute_external_command(char **args, char *bin_path)
 	{
 		if (execve(bin_path, args, NULL) == -1)
 		{
-			perror("./shell");
+			perror(argv[0]);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -116,10 +117,11 @@ void execute_user_command(user_command_t *cmd, char **args)
 /**
  * execute_command - Executes all the commands that the user enters
  * @args: argumments
+ * @argv: argumments from the main
  * Return: Nothing.
 */
 
-void execute_command(char **args)
+void execute_command(char **args, char *argv[])
 {
 	user_command_t *cmd;
 	char *binary_path = NULL;
@@ -137,13 +139,13 @@ void execute_command(char **args)
 
 	if (args[0][0] == '/')
 	{
-		execute_external_command(args, args[0]);
+		execute_external_command(args, args[0], argv);
 		return;
 	}
 
 	binary_path = build_bin_path(args[0]);
 
-	execute_external_command(args, binary_path);
+	execute_external_command(args, binary_path, argv);
 
 	free(binary_path);
 	binary_path = NULL;

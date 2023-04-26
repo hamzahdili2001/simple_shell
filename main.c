@@ -14,13 +14,16 @@ void main_errors_helper(char *text, int code)
 
 /**
  * main - the program starts here.
- *
+ * @argc: argument length
+ * @argv: arguments
  * Return: 0
 */
-int main(void)
+int main(int argc, char *argv[])
 {
 	char *prompt = "#cisfun$ ", *line, **args;
 	int status = 1;
+
+	(void)argc;
 
 	do {
 		if (isatty(STDERR_FILENO))
@@ -38,7 +41,7 @@ int main(void)
 		args = parse_line(line);
 		if (args[0] != NULL)
 		{
-			execute_command(args);
+			execute_command(args, argv);
 			free(args);
 		}
 		free(line);
