@@ -48,7 +48,6 @@ char *build_bin_path(char *cmd_name)
 
 	_strcpy(bn_command, "/bin/");
 	_strcat(bn_command, cmd_name);
-	bn_command[_strlen(bn_command)] = '\0';
 	return (bn_command);
 }
 
