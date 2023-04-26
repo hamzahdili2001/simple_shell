@@ -51,7 +51,7 @@ void exit_command(char **args)
 	}
 	else
 	{
-		status = atoi(args[1]);
+		status = _atoi(args[1]);
 		exit(status);
 	}
 }
