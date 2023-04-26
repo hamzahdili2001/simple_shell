@@ -7,7 +7,7 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <ncurses.h>
-#define TOKEN_DELIM " \t\r\n\a;"
+#define TOKEN_DELIM " \t\r\n\a"
 #define BUFFER_SIZE 1024
 
 /*EXTERNAL VAR*/
@@ -26,7 +26,7 @@ void cd_command(char **args);
 void setenv_command(char **args);
 void unsetenv_command(char **args);
 void echo_command(char **args);
-
+void exit_command(char **args);
 /*STRING FUNCTIONS*/
 int _strlen(char *str);
 int _strcmp(const char *s1, const char *s2);

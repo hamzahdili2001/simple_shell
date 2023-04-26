@@ -20,7 +20,7 @@ void main_errors_helper(char *text, int code)
 int main(void)
 {
 	char *prompt = "#cisfun$ ", *line, **args;
-	int status = 1, exit_status;
+	int status = 1;
 
 	do {
 		if (isatty(STDERR_FILENO))
@@ -38,15 +38,6 @@ int main(void)
 		args = parse_line(line);
 		if (args[0] != NULL)
 		{
-			if (_strcmp(args[0], "exit") == 0)
-			{
-				exit_status = EXIT_SUCCESS;
-				if (args[1] != NULL)
-					exit_status = _atoi(args[1]);
-				free(line);
-				free(args);
-				exit(exit_status);
-			}
 			execute_command(args);
 			free(args);
 		}

@@ -1,12 +1,13 @@
 #include "shell.h"
 #include <stdio.h>
 
-static user_command_t user_commands[5] = {
+static user_command_t user_commands[6] = {
 	{"cd", cd_command},
 	{"env", env_command},
 	{"echo", echo_command},
 	{"setenv", setenv_command},
 	{"unsetenv", unsetenv_command},
+	{"exit", exit_command},
 };
 
 /**
@@ -39,7 +40,8 @@ user_command_t *find_command(char *cmd_name)
 */
 char *build_bin_path(char *cmd_name)
 {
-	char *bn_command = malloc(sizeof(char) * (_strlen(cmd_name) + _strlen("/bin/")));
+	char *bn_command = malloc(sizeof(char) *
+													 (_strlen(cmd_name) + _strlen("/bin/")));
 
 	if (bn_command == NULL)
 	{
