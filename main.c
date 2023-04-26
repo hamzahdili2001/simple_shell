@@ -26,11 +26,9 @@ int main(int argc, char *argv[])
 
 	(void)argc;
 
-	if (!isatty(STDIN_FILENO))
-		prompt = "";
-
 	do {
-		write(STDERR_FILENO, prompt, _strlen(prompt));
+		if (isatty(STDIN_FILENO))
+			write(STDIN_FILENO, prompt, _strlen(prompt));
 
 		line = read_line();
 		if (line == NULL)
@@ -47,5 +45,11 @@ int main(int argc, char *argv[])
 		}
 		free(line);
 	} while (status);
+
+	if (!isatty(STDIN_FILENO))
+	{
+		write(STDOUT_FILENO, prompt, _strlen(prompt));
+	}
+
 	return (0);
 }
