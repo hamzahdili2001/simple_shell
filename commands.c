@@ -1,5 +1,6 @@
 #include "shell.h"
 #include <stdio.h>
+#include <stdlib.h>
 #define PATH_SIZE 4096
 /**
  * cd_command - implement cd command
@@ -43,17 +44,29 @@ void cd_command(char **args)
 
 void exit_command(char **args)
 {
-	int status;
+	int status = 0, sign = 1;
+	const char *str = args[1];
 
-	if (args[1] == NULL)
+	if (args[1] != NULL)
 	{
-		exit(EXIT_SUCCESS);
+		if (*str == '-')
+		{
+			sign = -1;
+			str++;
+		}
+		while (*str != '\0')
+		{
+			if (!_isdigit(*str))
+			{
+				perror("exit");
+				exit(EXIT_FAILURE);
+			}
+			status = status * 10 + (*str - '0');
+			str++;
+		}
+		status *= sign;
 	}
-	else
-	{
-		status = _atoi(args[1]);
-		exit(status);
-	}
+	exit(status);
 }
 
 /**

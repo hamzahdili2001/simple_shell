@@ -57,3 +57,13 @@ int _strlen(char *str)
 	return (len);
 }
 
+/**
+ * _isdigit - check if char is digit
+ * @c: char
+ * Return: 1 or 0
+*/
+
+int _isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
