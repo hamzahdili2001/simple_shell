@@ -84,7 +84,7 @@ void execute_external_command(char **args, char *bin_path, char *argv[])
 
 	if (pid == 0)
 	{
-		if (execve(bin_path, args, NULL) == -1)
+		if (execve(bin_path, args, environ) == -1)
 		{
 			perror(argv[0]);
 			exit(EXIT_FAILURE);
