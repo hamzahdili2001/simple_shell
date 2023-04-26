@@ -1,5 +1,6 @@
 #include "shell.h"
 #include <stdlib.h>
+#include <unistd.h>
 /**
  * main_errors_helper - error handler to prevent more than 40 line
  * @text: error message
@@ -25,11 +26,11 @@ int main(int argc, char *argv[])
 
 	(void)argc;
 
+	if (!isatty(STDIN_FILENO))
+		prompt = "";
+
 	do {
-		if (isatty(STDERR_FILENO))
-		{
-			write(STDERR_FILENO, prompt, _strlen(prompt));
-		}
+		write(STDERR_FILENO, prompt, _strlen(prompt));
 
 		line = read_line();
 		if (line == NULL)
