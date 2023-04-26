@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <limits.h>
 #include <ncurses.h>
 #define TOKEN_DELIM " \t\r\n\a"
 #define BUFFER_SIZE 1024

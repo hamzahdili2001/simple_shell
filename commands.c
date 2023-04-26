@@ -44,29 +44,37 @@ void cd_command(char **args)
 
 void exit_command(char **args)
 {
-	int status = 0, sign = 1;
-	const char *str = args[1];
+	int status, i, is_digit, str_len, big_number;
+	unsigned int ustatus;
 
 	if (args[1] != NULL)
 	{
-		if (*str == '-')
+		ustatus = _atoi(args[1]);
+		is_digit = 1;
+		str_len = 0;
+		big_number = ustatus > (unsigned int)INT_MAX;
+
+		for (i = 0; args[1][i] != '\0'; i++)
 		{
-			sign = -1;
-			str++;
-		}
-		while (*str != '\0')
-		{
-			if (!_isdigit(*str))
+			if (!_isdigit(args[1][i]))
 			{
-				perror("exit");
-				exit(EXIT_FAILURE);
+				is_digit = 0;
+				break;
 			}
-			status = status * 10 + (*str - '0');
-			str++;
+			str_len++;
 		}
-		status *= sign;
+		if (!is_digit || str_len > 10 || big_number)
+		{
+			perror("exit");
+			exit(2);
+		}
+		status = (int)ustatus;
+		exit(status);
 	}
-	exit(status);
+	else
+	{
+		exit(0);
+	}
 }
 
 /**
