@@ -40,8 +40,9 @@ user_command_t *find_command(char *cmd_name)
 */
 char *build_bin_path(char *cmd_name)
 {
-	char *bn_command = malloc(sizeof(char) *
-													 (_strlen(cmd_name) + _strlen("/bin/")));
+	char *path = getenv("PATH"), *path_copy = strdup(path),
+	*path_dir = strtok(path_copy, ":"),
+	*bn_command = malloc(sizeof(char) * BUFFER_SIZE);
 
 	if (bn_command == NULL)
 	{
@@ -49,9 +50,21 @@ char *build_bin_path(char *cmd_name)
 		exit(EXIT_FAILURE);
 	}
 
-	_strcpy(bn_command, "/bin/");
-	_strcat(bn_command, cmd_name);
-	return (bn_command);
+	while (path_dir != NULL)
+	{
+		_strcpy(bn_command, path_dir);
+		_strcat(bn_command, "/");
+		_strcat(bn_command, cmd_name);
+		if (access(bn_command, X_OK) == 0)
+		{
+			free(path_copy);
+			return (bn_command);
+		}
+		path_dir = strtok(NULL, ":");
+	}
+	free(bn_command);
+	free(path_copy);
+	return (NULL);
 }
 
 /**
