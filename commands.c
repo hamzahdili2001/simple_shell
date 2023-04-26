@@ -19,21 +19,33 @@ void cd_command(char **args)
 		dir = args[1];
 
 	if (dir == NULL)
+	{
 		errors("cd");
+		return;
+	}
 
 	if (getcwd(old_pwd, PATH_SIZE) == NULL)
+	{
 		errors("cd");
+		return;
+	}
 
 	if (chdir(dir) == -1)
+	{
 		errors("cd");
-
+		return;
+	}
 	current_dir = getcwd(NULL, 0);
-
 	if (current_dir == NULL)
+	{
 		errors("cd");
-
+		return;
+	}
 	if (setenv("PWD", current_dir, 1) == -1)
+	{
 		errors("cd");
+		return;
+	}
 }
 
 /**
