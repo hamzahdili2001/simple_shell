@@ -1,39 +1,74 @@
 #include "shell.h"
 #include <unistd.h>
 
+
+/**
+ * _getchar - man getchar
+ * Return: EOF
+*/
+int _getchar(void)
+{
+	static char buffer[BUFFER_SIZE],  *bufp = buffer;
+	static int n;
+
+	if (n == 0)
+	{
+		n = read(0, buffer, sizeof(buffer));
+		bufp = buffer;
+	}
+
+	if (--n >= 0)
+	{
+		return ((unsigned char) *bufp++);
+	}
+	return (EOF);
+}
+
 /**
  * read_line - a pointer function that read the line from user.
  *
  * Return: line.
 */
 
-
 char *read_line(void)
 {
-	char *line = NULL, *comment;
-	size_t buffer_size = 0;
-	ssize_t bytes_read = _getline(&line, &buffer_size, STDIN_FILENO);
+	int position = 0, c, bufsize = BUFFER_SIZE;
+	char *buffer = malloc(sizeof(char) * bufsize);
 
-	if (bytes_read == 0)
+	if (!buffer)
 	{
-		free(line);
-		return (NULL);
-	}
-	if (bytes_read == -1)
-	{
-		free(line);
-		return (NULL);
-	}
-	if (line[bytes_read - 1] == '\n')
-	{
-		line[bytes_read - 1] = '\0';
+		perror("malloc");
+		exit(EXIT_FAILURE);
 	}
 
-	/*remove comments from the input line*/
-	comment = _strchr(line, '#');
-	if (comment != NULL)
+	while (1)
 	{
-		*comment = '\0';
+		c = _getchar();
+		if (c == EOF || c == '\n')
+		{
+			buffer[position] = '\0';
+			if (c == EOF && position == 0)
+			{
+				free(buffer);
+				return (NULL);
+			}
+			return (buffer);
+		}
+		else
+		{
+			buffer[position] = c;
+		}
+		position++;
+		if (position >= bufsize)
+		{
+			bufsize += BUFFER_SIZE;
+			buffer = realloc(buffer, bufsize);
+			if (!buffer)
+			{
+				perror("malloc");
+				exit(EXIT_FAILURE);
+			}
+		}
 	}
-	return (line);
+	return (buffer);
 }

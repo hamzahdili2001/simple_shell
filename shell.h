@@ -38,7 +38,6 @@ char *_strtok(char *str, const char *delim);
 char *_strchr(const char *str, int c);
 
 /*OWN FUNCTION*/
-ssize_t _getline(char **lineptr, size_t *n, int fd);
 void *_memcpy(void *dest, const void *src, size_t n);
 int _atoi(const char *str);
 int _isdigit(int c);

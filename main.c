@@ -32,7 +32,7 @@ int main(void)
 		if (line == NULL)
 		{
 			free(line);
-			return (0);
+			break;
 		}
 
 		args = parse_line(line);
