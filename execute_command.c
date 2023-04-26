@@ -62,9 +62,8 @@ char *build_bin_path(char *cmd_name)
 		}
 		path_dir = _strtok(NULL, ":");
 	}
-	free(bn_command);
 	free(path_copy);
-	return (NULL);
+	return (bn_command);
 }
 
 /**
