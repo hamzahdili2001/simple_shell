@@ -14,12 +14,16 @@ char *read_line(void)
 	size_t buffer_size = 0;
 	ssize_t bytes_read = _getline(&line, &buffer_size, STDIN_FILENO);
 
+	if (bytes_read == 0)
+	{
+		free(line);
+		return (NULL);
+	}
 	if (bytes_read == -1)
 	{
 		free(line);
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
-
 	if (line[bytes_read - 1] == '\n')
 	{
 		line[bytes_read - 1] = '\0';

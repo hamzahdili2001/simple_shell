@@ -19,24 +19,21 @@ void main_errors_helper(char *text, int code)
 */
 int main(void)
 {
-	char *prompt = "($) ", *line = malloc(BUFFER_SIZE * sizeof(char *)), **args;
-	int line_length;
+	char *prompt = "#cisfun$ ", *line, **args;
 	int status = 1, exit_status;
 
-	if (line == NULL)
-		main_errors_helper("malloc", EXIT_FAILURE);
 	do {
-		write(STDERR_FILENO, prompt, _strlen(prompt));
-		if (isatty(STDERR_FILENO) == 0)
+		if (isatty(STDERR_FILENO))
 		{
-			line_length = read(STDIN_FILENO, line, BUFFER_SIZE);
-			if (line_length == -1)
-				main_errors_helper("read", EXIT_FAILURE);
-			if (line_length == 0)
-				break;
+			write(STDERR_FILENO, prompt, _strlen(prompt));
 		}
-		else
-			line = read_line();
+
+		line = read_line();
+		if (line == NULL)
+		{
+			free(line);
+			return (0);
+		}
 
 		args = parse_line(line);
 		if (args[0] != NULL)

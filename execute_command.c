@@ -71,6 +71,7 @@ void execute_external_command(char **args, char *bin_path)
 	{
 		if (execve(bin_path, args, NULL) == -1)
 		{
+			write(STDOUT_FILENO, "./shell: ", _strlen("./shell: "));
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
