@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <stdio.h>
 
 static user_command_t user_commands[5] = {
 	{"cd", cd_command},
@@ -38,11 +39,11 @@ user_command_t *find_command(char *cmd_name)
 */
 char *build_bin_path(char *cmd_name)
 {
-	char *bn_command = malloc(_strlen(cmd_name) + _strlen("/bin/"));
+	char *bn_command = malloc(sizeof(char) * (_strlen(cmd_name) + _strlen("/bin/")));
 
 	if (bn_command == NULL)
 	{
-		write(STDERR_FILENO, "Allocation faild\n", _strlen("Allocation faild\n"));
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
 
