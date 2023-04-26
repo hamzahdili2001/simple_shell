@@ -41,8 +41,8 @@ user_command_t *find_command(char *cmd_name)
 char *build_bin_path(char *cmd_name)
 {
 	char *path = getenv("PATH"), *path_copy = strdup(path),
-	*path_dir = strtok(path_copy, ":"),
-	*bn_command = malloc(sizeof(char) * BUFFER_SIZE);
+	*path_dir = _strtok(path_copy, ":"),
+	*bn_command = malloc(sizeof(char *) * BUFFER_SIZE);
 
 	if (bn_command == NULL)
 	{
@@ -60,7 +60,7 @@ char *build_bin_path(char *cmd_name)
 			free(path_copy);
 			return (bn_command);
 		}
-		path_dir = strtok(NULL, ":");
+		path_dir = _strtok(NULL, ":");
 	}
 	free(bn_command);
 	free(path_copy);

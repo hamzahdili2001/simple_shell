@@ -68,22 +68,24 @@ int _strcmp(const char *s1, const char *s2)
 
 char *_strtok(char *str, const char *delim)
 {
-	char *start;
-	static char *p;
+	static char *pos;
+	char *start, *end;
 
-	if (str != NULL)
-		p = str;
-
-	if (p == NULL || *p == '\0')
+	if (str)
+		pos = str;
+	if (!pos)
 		return (NULL);
 
-	start = p;
+	while (*pos && strchr(delim, *pos))
+		pos++;
 
-	while (*p != '\0' && _strchr(delim, *p) == NULL)
-		++p;
+	if (!*pos)
+		return (NULL);
 
-	if (*p != '\0')
-		*p++ = '\0';
+	start = pos;
+	end = start + strcspn(pos, delim);
+	pos = (*end) ? end + 1 : NULL;
+	*end = '\0';
 
 	return (start);
 }
