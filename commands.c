@@ -9,42 +9,35 @@
 */
 void cd_command(char **args)
 {
-	char *dir, old_pwd[PATH_SIZE], *current_dir;
+	char *dir, *pwd;
 
 	if (args[1] == NULL)
 		dir = getenv("HOME");
 	else if (_strcmp(args[1], "-") == 0)
+	{
 		dir = getenv("OLDPWD");
+		if (dir == NULL)
+		{
+			perror("cd");
+			return;
+		}
+	}
 	else
 		dir = args[1];
 
-	if (dir == NULL)
+	if (chdir(dir) != 0)
+		perror("cd");
+	else
 	{
-		errors("cd");
-		return;
-	}
-
-	if (getcwd(old_pwd, PATH_SIZE) == NULL)
-	{
-		errors("cd");
-		return;
-	}
-
-	if (chdir(dir) == -1)
-	{
-		errors("cd");
-		return;
-	}
-	current_dir = getcwd(NULL, 0);
-	if (current_dir == NULL)
-	{
-		errors("cd");
-		return;
-	}
-	if (setenv("PWD", current_dir, 1) == -1)
-	{
-		errors("cd");
-		return;
+		pwd = getcwd(NULL, 0);
+		if (pwd == NULL)
+			perror("getcwd");
+		else
+		{
+			setenv("OLDPWD", getenv("PWD"), 1);
+			setenv("PWD", pwd, 1);
+			free(pwd);
+		}
 	}
 }
 

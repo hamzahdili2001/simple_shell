@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	(void)argc;
 
 	do {
-		if (!isatty(STDIN_FILENO))
+		if (isatty(STDIN_FILENO))
 			write(STDIN_FILENO, prompt, _strlen(prompt));
 
 		line = read_line();
