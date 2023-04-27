@@ -129,17 +129,17 @@ void execute_command(char **args, char *argv[])
 	if (args[0] == NULL)
 		return;
 
+	if (args[0][0] == '/')
+	{
+		execute_external_command(args, args[0], argv);
+		return;
+	}
+
 	cmd = find_command(args[0]);
 
 	if (cmd != NULL)
 	{
 		execute_user_command(cmd, args);
-		return;
-	}
-
-	if (args[0][0] == '/')
-	{
-		execute_external_command(args, args[0], argv);
 		return;
 	}
 
