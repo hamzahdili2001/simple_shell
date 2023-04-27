@@ -26,19 +26,19 @@ void cd_command(char **args)
 		dir = args[1];
 
 	if (chdir(dir) != 0)
-		perror("cd");
-	else
 	{
-		pwd = getcwd(NULL, 0);
-		if (pwd == NULL)
-			perror("getcwd");
-		else
-		{
-			setenv("OLDPWD", getenv("PWD"), 1);
-			setenv("PWD", pwd, 1);
-			free(pwd);
-		}
+		perror("cd");
+		return;
 	}
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+	{
+		perror("getcwd");
+		return;
+	}
+	setenv("OLDPWD", getenv("PWD"), 1);
+	setenv("PWD", pwd, 1);
+	free(pwd);
 }
 
 /**
