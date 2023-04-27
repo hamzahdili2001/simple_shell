@@ -60,5 +60,5 @@ void exit_command(char **args)
 			return;
 		}
 	}
-	exit(exit_status);
+	_exit(exit_status);
 }
