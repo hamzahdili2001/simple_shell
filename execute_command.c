@@ -44,10 +44,22 @@ char *build_bin_path(char *cmd_name)
 	*path_dir = _strtok(path_copy, ":"),
 	*bn_command = malloc(sizeof(char *) * BUFFER_SIZE);
 
+	if (path == NULL)
+	{
+		perror("Error: PATH environment variable not set");
+		return (NULL);
+	}
+	if (path_copy == NULL)
+	{
+		perror("Error: strdup failed");
+		return (NULL);
+	}
+
 	if (bn_command == NULL)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		perror("Error: malloc failed");
+		free(path_copy);
+		return (NULL);
 	}
 
 	while (path_dir != NULL)
