@@ -1,6 +1,5 @@
 #include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include <errno.h>
 #define PATH_SIZE 4096
 /**
  * cd_command - implement cd command
@@ -13,6 +12,7 @@ void cd_command(char **args)
 
 	if (args[1] == NULL)
 		dir = getenv("HOME");
+
 	else if (_strcmp(args[1], "-") == 0)
 	{
 		dir = getenv("OLDPWD");
@@ -30,15 +30,21 @@ void cd_command(char **args)
 		perror("cd");
 		return;
 	}
-	pwd = getcwd(NULL, 0);
-	if (pwd == NULL)
+	else
 	{
-		perror("getcwd");
-		return;
+		pwd = getcwd(NULL, 0);
+		if (pwd == NULL)
+		{
+			perror("getcwd");
+			return;
+		}
+		else
+		{
+			setenv("OLDPWD", getenv("PWD"), 1);
+			setenv("PWD", pwd, 1);
+			free(pwd);
+		}
 	}
-	setenv("OLDPWD", getenv("PWD"), 1);
-	setenv("PWD", pwd, 1);
-	free(pwd);
 }
 
 /**
