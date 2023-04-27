@@ -1,5 +1,7 @@
 #include "shell.h"
 #include <errno.h>
+#include <stdio.h>
+#include <unistd.h>
 #define PATH_SIZE 4096
 /**
  * cd_command - implement cd command
@@ -44,47 +46,6 @@ void cd_command(char **args)
 			setenv("PWD", pwd, 1);
 			free(pwd);
 		}
-	}
-}
-
-/**
- * exit_command - implement exit command
- * @args: arguments
- * Return: Nothing.
-*/
-
-void exit_command(char **args)
-{
-	int status, i, is_digit, str_len, big_number;
-	unsigned int ustatus;
-
-	if (args[1] != NULL)
-	{
-		ustatus = _atoi(args[1]);
-		is_digit = 1;
-		str_len = 0;
-		big_number = ustatus > (unsigned int)INT_MAX;
-
-		for (i = 0; args[1][i] != '\0'; i++)
-		{
-			if (!_isdigit(args[1][i]))
-			{
-				is_digit = 0;
-				break;
-			}
-			str_len++;
-		}
-		if (!is_digit || str_len > 10 || big_number)
-		{
-			perror("exit");
-			exit(2);
-		}
-		status = (int)ustatus;
-		exit(status);
-	}
-	else
-	{
-		exit(0);
 	}
 }
 
