@@ -19,12 +19,13 @@ user_command_t *find_command(char *cmd_name)
 {
 	int i, num_user_commands = sizeof(user_commands) / sizeof(user_command_t);
 
+	(void)num_user_commands;
 	if (cmd_name == NULL)
 	{
 		return (NULL);
 	}
 
-	for (i = 0; i < num_user_commands; i++)
+	for (i = 0; user_commands[i].command_name; i++)
 	{
 		if (_strcmp(cmd_name, user_commands[i].command_name) == 0)
 			return (&user_commands[i]);
